@@ -1,5 +1,5 @@
 import re
-from ..classes.base_terraform import BaseTerraform
+from ..modules.base_terraform import BaseTerraform
 from .regex_def import re_lib
 
 

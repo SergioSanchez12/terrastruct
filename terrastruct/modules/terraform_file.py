@@ -1,4 +1,3 @@
-
 from .base_terraform import BaseTerraform
 
 class TerraformFile:
