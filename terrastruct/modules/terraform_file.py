@@ -3,7 +3,7 @@ from .base_terraform import BaseTerraform
 class TerraformFile:
 
 	def __init__(self, path: str):
-		
+		self.path = path
 		self.blocks = []
 
 	def add_block(self, new_block: BaseTerraform):
@@ -15,7 +15,7 @@ class TerraformFile:
 				print(f"{target_type}: {block.names}")
 
 	def list_all(self):
-		for block in self.blocks
+		for block in self.blocks:
 			print(f"{block.type}: {block.names}")
 
 

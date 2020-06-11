@@ -1,5 +1,6 @@
 import re
 from ..modules.base_terraform import BaseTerraform
+from ..modules.terraform_file import TerraformFile
 from .regex_def import re_lib
 
 
@@ -10,13 +11,12 @@ def parse_tf_file(path: str):
 	from the data in the file
 	"""
 
-	tf_file = open(path, 'r')
-	tf_lines = iter(tf_file.readlines())
+	tf_lines = iter(open(path, 'r').readlines())
 
 	cur_line = next(tf_lines, None)
 	line_type, match = _line_parser(cur_line)
 
-	tf_objs = []
+	tf_file = TerraformFile(path)
 
 	while cur_line != None:
 		if line_type == "start_block":
@@ -34,8 +34,7 @@ def parse_tf_file(path: str):
 				if line_type == "key_val":
 					tf_obj.add_arg(match.group("key"), match.group("val"))
 
-			tf_objs.append(tf_obj)
-			tf_obj.disp()
+			tf_file.add_block(tf_obj)
 
 		if line_type == "start_comment":
 			while line_type != "end_comment":
@@ -45,7 +44,7 @@ def parse_tf_file(path: str):
 		cur_line = next(tf_lines, None)
 		line_type, match = _line_parser(cur_line)
 
-	return tf_objs
+	return tf_file
 
 
 def _line_parser(line):
